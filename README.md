@@ -35,6 +35,8 @@ The contract includes:
 ga4-datalayer-as-code/
 ├── README.md
 ├── CHANGELOG.md
+├── LICENSE
+├── package.json
 ├── contract/
 │   └── ga4_web_tracking_contract.yaml
 ├── schemas/
