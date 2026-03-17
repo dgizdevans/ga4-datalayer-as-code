@@ -1,0 +1,13 @@
+{
+  "event": "page_view",
+  "page_location": "https://example.com/pricing",
+  "page_referrer": "https://www.google.com/",
+  "page_title": "Pricing",
+  "language": "en-us",
+  "screen_resolution": "1920x1080",
+  "user_id": "crm_12345",
+  "user_properties": {
+    "account_type": "b2b",
+    "user_tier": "pro"
+  }
+}
