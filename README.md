@@ -116,7 +116,7 @@ Typical use cases:
 - intercepting dataLayer.push(...) in QA environments and checking schema compliance
 - failing builds when undeclared fields or invalid payloads are introduced
 
-№№№ Validation
+### Validation
 A minimal validator can be implemented with Ajv.
 
 Example:
