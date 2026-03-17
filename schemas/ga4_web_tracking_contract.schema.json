@@ -1,0 +1,3589 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schemas/ga4_web_tracking_contract.schema.json",
+  "title": "GA4 Web Tracking Contract",
+  "description": "Strict GA4 web dataLayer contract for implementation, validation, monitoring, and AI-assisted analysis.",
+  "type": "object",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/Event_first_visit"
+    },
+    {
+      "$ref": "#/$defs/Event_session_start"
+    },
+    {
+      "$ref": "#/$defs/Event_user_engagement"
+    },
+    {
+      "$ref": "#/$defs/Event_page_view"
+    },
+    {
+      "$ref": "#/$defs/Event_scroll"
+    },
+    {
+      "$ref": "#/$defs/Event_click"
+    },
+    {
+      "$ref": "#/$defs/Event_file_download"
+    },
+    {
+      "$ref": "#/$defs/Event_form_start"
+    },
+    {
+      "$ref": "#/$defs/Event_form_submit"
+    },
+    {
+      "$ref": "#/$defs/Event_video_start"
+    },
+    {
+      "$ref": "#/$defs/Event_video_progress"
+    },
+    {
+      "$ref": "#/$defs/Event_video_complete"
+    },
+    {
+      "$ref": "#/$defs/Event_view_search_results"
+    },
+    {
+      "$ref": "#/$defs/Event_add_payment_info"
+    },
+    {
+      "$ref": "#/$defs/Event_add_shipping_info"
+    },
+    {
+      "$ref": "#/$defs/Event_add_to_cart"
+    },
+    {
+      "$ref": "#/$defs/Event_add_to_wishlist"
+    },
+    {
+      "$ref": "#/$defs/Event_begin_checkout"
+    },
+    {
+      "$ref": "#/$defs/Event_purchase"
+    },
+    {
+      "$ref": "#/$defs/Event_refund"
+    },
+    {
+      "$ref": "#/$defs/Event_remove_from_cart"
+    },
+    {
+      "$ref": "#/$defs/Event_select_item"
+    },
+    {
+      "$ref": "#/$defs/Event_select_promotion"
+    },
+    {
+      "$ref": "#/$defs/Event_view_cart"
+    },
+    {
+      "$ref": "#/$defs/Event_view_item"
+    },
+    {
+      "$ref": "#/$defs/Event_view_item_list"
+    },
+    {
+      "$ref": "#/$defs/Event_view_promotion"
+    },
+    {
+      "$ref": "#/$defs/Event_generate_lead"
+    },
+    {
+      "$ref": "#/$defs/Event_join_group"
+    },
+    {
+      "$ref": "#/$defs/Event_login"
+    },
+    {
+      "$ref": "#/$defs/Event_search"
+    },
+    {
+      "$ref": "#/$defs/Event_select_content"
+    },
+    {
+      "$ref": "#/$defs/Event_share"
+    },
+    {
+      "$ref": "#/$defs/Event_sign_up"
+    },
+    {
+      "$ref": "#/$defs/Event_earn_virtual_currency"
+    },
+    {
+      "$ref": "#/$defs/Event_spend_virtual_currency"
+    },
+    {
+      "$ref": "#/$defs/Event_tutorial_begin"
+    },
+    {
+      "$ref": "#/$defs/Event_tutorial_complete"
+    },
+    {
+      "$ref": "#/$defs/Event_qualify_lead"
+    },
+    {
+      "$ref": "#/$defs/Event_disqualify_lead"
+    },
+    {
+      "$ref": "#/$defs/Event_working_lead"
+    },
+    {
+      "$ref": "#/$defs/Event_close_convert_lead"
+    },
+    {
+      "$ref": "#/$defs/Event_close_unconvert_lead"
+    },
+    {
+      "$ref": "#/$defs/Event_level_start"
+    },
+    {
+      "$ref": "#/$defs/Event_level_end"
+    },
+    {
+      "$ref": "#/$defs/Event_level_up"
+    },
+    {
+      "$ref": "#/$defs/Event_post_score"
+    },
+    {
+      "$ref": "#/$defs/Event_unlock_achievement"
+    }
+  ],
+  "$defs": {
+    "EnvelopeProperties": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": true
+    },
+    "CommonWebParams": {
+      "type": "object",
+      "properties": {
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        }
+      },
+      "additionalProperties": true
+    },
+    "IdentityParams": {
+      "type": "object",
+      "properties": {
+        "client_id": {
+          "type": "string"
+        },
+        "ga_session_id": {
+          "type": "integer"
+        },
+        "ga_session_number": {
+          "type": "integer"
+        },
+        "ignore_referrer": {
+          "type": "boolean"
+        },
+        "traffic_type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "MoneyDependency": {
+      "type": "object",
+      "dependentRequired": {
+        "value": [
+          "currency"
+        ]
+      }
+    },
+    "ItemSchema": {
+      "type": "object",
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": [
+            "item_id"
+          ]
+        },
+        {
+          "required": [
+            "item_name"
+          ]
+        }
+      ],
+      "properties": {
+        "item_id": {
+          "type": "string"
+        },
+        "item_name": {
+          "type": "string"
+        },
+        "affiliation": {
+          "type": "string"
+        },
+        "coupon": {
+          "type": "string"
+        },
+        "discount": {
+          "type": "number"
+        },
+        "index": {
+          "type": "integer"
+        },
+        "item_brand": {
+          "type": "string"
+        },
+        "item_category": {
+          "type": "string"
+        },
+        "item_category2": {
+          "type": "string"
+        },
+        "item_category3": {
+          "type": "string"
+        },
+        "item_category4": {
+          "type": "string"
+        },
+        "item_category5": {
+          "type": "string"
+        },
+        "item_list_id": {
+          "type": "string"
+        },
+        "item_list_name": {
+          "type": "string"
+        },
+        "item_variant": {
+          "type": "string"
+        },
+        "location_id": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number"
+        },
+        "quantity": {
+          "type": "number",
+          "default": 1
+        },
+        "creative_name": {
+          "type": "string"
+        },
+        "creative_slot": {
+          "type": "string"
+        },
+        "promotion_id": {
+          "type": "string"
+        },
+        "promotion_name": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(?!(?:item_id|item_name|affiliation|coupon|discount|index|item_brand|item_category|item_category2|item_category3|item_category4|item_category5|item_list_id|item_list_name|item_variant|location_id|price|quantity|creative_name|creative_slot|promotion_id|promotion_name)$)[A-Za-z][A-Za-z0-9_]{0,39}$": {
+          "type": [
+            "string",
+            "number",
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "maxProperties": 49,
+      "x-flatCustomParams": {
+        "type": "object",
+        "maxProperties": 27,
+        "description": "Flat item-scoped custom params cap; enforce separately in validator logic for keys matched by patternProperties."
+      }
+    },
+    "ItemsArray": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 200,
+      "items": {
+        "$ref": "#/$defs/ItemSchema"
+      }
+    },
+    "SingleItemArray": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "$ref": "#/$defs/ItemSchema"
+      }
+    },
+    "Event_first_visit": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "client_id": {
+          "type": "string"
+        },
+        "ga_session_id": {
+          "type": "integer"
+        },
+        "ga_session_number": {
+          "type": "integer"
+        },
+        "ignore_referrer": {
+          "type": "boolean"
+        },
+        "traffic_type": {
+          "type": "string"
+        },
+        "event": {
+          "const": "first_visit"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    },
+    "Event_session_start": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "client_id": {
+          "type": "string"
+        },
+        "ga_session_id": {
+          "type": "integer"
+        },
+        "ga_session_number": {
+          "type": "integer"
+        },
+        "ignore_referrer": {
+          "type": "boolean"
+        },
+        "traffic_type": {
+          "type": "string"
+        },
+        "event": {
+          "const": "session_start"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    },
+    "Event_user_engagement": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "event": {
+          "const": "user_engagement"
+        },
+        "engagement_time_msec": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    },
+    "Event_page_view": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "page_view"
+        },
+        "engagement_time_msec": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    },
+    "Event_scroll": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "scroll"
+        },
+        "engagement_time_msec": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    },
+    "Event_click": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "click"
+        },
+        "link_classes": {
+          "type": "string"
+        },
+        "link_domain": {
+          "type": "string"
+        },
+        "link_id": {
+          "type": "string"
+        },
+        "link_url": {
+          "type": "string"
+        },
+        "outbound": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    },
+    "Event_file_download": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "file_download"
+        },
+        "file_extension": {
+          "type": "string"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "link_classes": {
+          "type": "string"
+        },
+        "link_id": {
+          "type": "string"
+        },
+        "link_text": {
+          "type": "string"
+        },
+        "link_url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    },
+    "Event_form_start": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "form_start"
+        },
+        "form_id": {
+          "type": "string"
+        },
+        "form_name": {
+          "type": "string"
+        },
+        "form_destination": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    },
+    "Event_form_submit": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "form_submit"
+        },
+        "form_id": {
+          "type": "string"
+        },
+        "form_name": {
+          "type": "string"
+        },
+        "form_destination": {
+          "type": "string"
+        },
+        "form_submit_text": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    },
+    "Event_video_start": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "video_start"
+        },
+        "video_current_time": {
+          "type": "number"
+        },
+        "video_duration": {
+          "type": "number"
+        },
+        "video_percent": {
+          "type": "number"
+        },
+        "video_provider": {
+          "type": "string"
+        },
+        "video_title": {
+          "type": "string"
+        },
+        "video_url": {
+          "type": "string"
+        },
+        "visible": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    },
+    "Event_video_progress": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "video_progress"
+        },
+        "video_current_time": {
+          "type": "number"
+        },
+        "video_duration": {
+          "type": "number"
+        },
+        "video_percent": {
+          "type": "number"
+        },
+        "video_provider": {
+          "type": "string"
+        },
+        "video_title": {
+          "type": "string"
+        },
+        "video_url": {
+          "type": "string"
+        },
+        "visible": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    },
+    "Event_video_complete": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "video_complete"
+        },
+        "video_current_time": {
+          "type": "number"
+        },
+        "video_duration": {
+          "type": "number"
+        },
+        "video_percent": {
+          "type": "number"
+        },
+        "video_provider": {
+          "type": "string"
+        },
+        "video_title": {
+          "type": "string"
+        },
+        "video_url": {
+          "type": "string"
+        },
+        "visible": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    },
+    "Event_view_search_results": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "view_search_results"
+        },
+        "search_term": {
+          "type": "string"
+        },
+        "unique_search_term": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "event"
+      ],
+      "patternProperties": {
+        "^q_[A-Za-z0-9_]+$": {
+          "type": "string"
+        }
+      }
+    },
+    "Event_add_payment_info": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "add_payment_info"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code"
+        },
+        "value": {
+          "type": "number"
+        },
+        "coupon": {
+          "type": "string"
+        },
+        "payment_type": {
+          "type": "string"
+        },
+        "items": {
+          "$ref": "#/$defs/ItemsArray"
+        }
+      },
+      "required": [
+        "event",
+        "items"
+      ],
+      "dependentRequired": {
+        "value": [
+          "currency"
+        ]
+      }
+    },
+    "Event_add_shipping_info": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "add_shipping_info"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code"
+        },
+        "value": {
+          "type": "number"
+        },
+        "coupon": {
+          "type": "string"
+        },
+        "shipping_tier": {
+          "type": "string"
+        },
+        "items": {
+          "$ref": "#/$defs/ItemsArray"
+        }
+      },
+      "required": [
+        "event",
+        "items"
+      ],
+      "dependentRequired": {
+        "value": [
+          "currency"
+        ]
+      }
+    },
+    "Event_add_to_cart": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "add_to_cart"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code"
+        },
+        "value": {
+          "type": "number"
+        },
+        "items": {
+          "$ref": "#/$defs/ItemsArray"
+        }
+      },
+      "required": [
+        "event",
+        "items"
+      ],
+      "dependentRequired": {
+        "value": [
+          "currency"
+        ]
+      }
+    },
+    "Event_add_to_wishlist": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "add_to_wishlist"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code"
+        },
+        "value": {
+          "type": "number"
+        },
+        "items": {
+          "$ref": "#/$defs/ItemsArray"
+        }
+      },
+      "required": [
+        "event",
+        "items"
+      ],
+      "dependentRequired": {
+        "value": [
+          "currency"
+        ]
+      }
+    },
+    "Event_begin_checkout": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "begin_checkout"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code"
+        },
+        "value": {
+          "type": "number"
+        },
+        "coupon": {
+          "type": "string"
+        },
+        "items": {
+          "$ref": "#/$defs/ItemsArray"
+        }
+      },
+      "required": [
+        "event",
+        "items"
+      ],
+      "dependentRequired": {
+        "value": [
+          "currency"
+        ]
+      }
+    },
+    "Event_purchase": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "purchase"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code"
+        },
+        "value": {
+          "type": "number"
+        },
+        "transaction_id": {
+          "type": "string"
+        },
+        "coupon": {
+          "type": "string"
+        },
+        "shipping": {
+          "type": "number"
+        },
+        "tax": {
+          "type": "number"
+        },
+        "customer_type": {
+          "type": "string",
+          "enum": [
+            "new",
+            "returning"
+          ]
+        },
+        "items": {
+          "$ref": "#/$defs/ItemsArray"
+        }
+      },
+      "required": [
+        "event",
+        "transaction_id",
+        "items"
+      ],
+      "dependentRequired": {
+        "value": [
+          "currency"
+        ]
+      }
+    },
+    "Event_refund": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "refund"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code"
+        },
+        "value": {
+          "type": "number"
+        },
+        "transaction_id": {
+          "type": "string"
+        },
+        "coupon": {
+          "type": "string"
+        },
+        "shipping": {
+          "type": "number"
+        },
+        "tax": {
+          "type": "number"
+        },
+        "items": {
+          "$ref": "#/$defs/ItemsArray"
+        }
+      },
+      "required": [
+        "event",
+        "transaction_id"
+      ],
+      "dependentRequired": {
+        "value": [
+          "currency"
+        ]
+      }
+    },
+    "Event_remove_from_cart": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "remove_from_cart"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code"
+        },
+        "value": {
+          "type": "number"
+        },
+        "items": {
+          "$ref": "#/$defs/ItemsArray"
+        }
+      },
+      "required": [
+        "event",
+        "items"
+      ],
+      "dependentRequired": {
+        "value": [
+          "currency"
+        ]
+      }
+    },
+    "Event_select_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "select_item"
+        },
+        "item_list_id": {
+          "type": "string"
+        },
+        "item_list_name": {
+          "type": "string"
+        },
+        "items": {
+          "$ref": "#/$defs/SingleItemArray"
+        }
+      },
+      "required": [
+        "event",
+        "items"
+      ]
+    },
+    "Event_select_promotion": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "select_promotion"
+        },
+        "creative_name": {
+          "type": "string"
+        },
+        "creative_slot": {
+          "type": "string"
+        },
+        "promotion_id": {
+          "type": "string"
+        },
+        "promotion_name": {
+          "type": "string"
+        },
+        "items": {
+          "$ref": "#/$defs/ItemsArray"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    },
+    "Event_view_cart": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "view_cart"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code"
+        },
+        "value": {
+          "type": "number"
+        },
+        "items": {
+          "$ref": "#/$defs/ItemsArray"
+        }
+      },
+      "required": [
+        "event",
+        "items"
+      ],
+      "dependentRequired": {
+        "value": [
+          "currency"
+        ]
+      }
+    },
+    "Event_view_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "view_item"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code"
+        },
+        "value": {
+          "type": "number"
+        },
+        "items": {
+          "$ref": "#/$defs/ItemsArray"
+        }
+      },
+      "required": [
+        "event",
+        "items"
+      ],
+      "dependentRequired": {
+        "value": [
+          "currency"
+        ]
+      }
+    },
+    "Event_view_item_list": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "view_item_list"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code"
+        },
+        "value": {
+          "type": "number"
+        },
+        "item_list_id": {
+          "type": "string"
+        },
+        "item_list_name": {
+          "type": "string"
+        },
+        "items": {
+          "$ref": "#/$defs/ItemsArray"
+        }
+      },
+      "required": [
+        "event",
+        "items"
+      ],
+      "dependentRequired": {
+        "value": [
+          "currency"
+        ]
+      }
+    },
+    "Event_view_promotion": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "view_promotion"
+        },
+        "creative_name": {
+          "type": "string"
+        },
+        "creative_slot": {
+          "type": "string"
+        },
+        "promotion_id": {
+          "type": "string"
+        },
+        "promotion_name": {
+          "type": "string"
+        },
+        "items": {
+          "$ref": "#/$defs/SingleItemArray"
+        }
+      },
+      "required": [
+        "event",
+        "items"
+      ]
+    },
+    "Event_generate_lead": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "generate_lead"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code"
+        },
+        "value": {
+          "type": "number"
+        },
+        "lead_source": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "event"
+      ],
+      "dependentRequired": {
+        "value": [
+          "currency"
+        ]
+      }
+    },
+    "Event_join_group": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "join_group"
+        },
+        "group_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    },
+    "Event_login": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "login"
+        },
+        "method": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    },
+    "Event_search": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "search"
+        },
+        "search_term": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "event",
+        "search_term"
+      ]
+    },
+    "Event_select_content": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "select_content"
+        },
+        "content_type": {
+          "type": "string"
+        },
+        "content_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    },
+    "Event_share": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "share"
+        },
+        "method": {
+          "type": "string"
+        },
+        "content_type": {
+          "type": "string"
+        },
+        "item_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    },
+    "Event_sign_up": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "sign_up"
+        },
+        "method": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    },
+    "Event_earn_virtual_currency": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "earn_virtual_currency"
+        },
+        "virtual_currency_name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    },
+    "Event_spend_virtual_currency": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "spend_virtual_currency"
+        },
+        "value": {
+          "type": "number"
+        },
+        "virtual_currency_name": {
+          "type": "string"
+        },
+        "item_name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "event",
+        "value",
+        "virtual_currency_name"
+      ]
+    },
+    "Event_tutorial_begin": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "tutorial_begin"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    },
+    "Event_tutorial_complete": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "tutorial_complete"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    },
+    "Event_qualify_lead": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "qualify_lead"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code"
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "event"
+      ],
+      "dependentRequired": {
+        "value": [
+          "currency"
+        ]
+      }
+    },
+    "Event_disqualify_lead": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "disqualify_lead"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code"
+        },
+        "value": {
+          "type": "number"
+        },
+        "disqualified_lead_reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "event"
+      ],
+      "dependentRequired": {
+        "value": [
+          "currency"
+        ]
+      }
+    },
+    "Event_working_lead": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "working_lead"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code"
+        },
+        "value": {
+          "type": "number"
+        },
+        "lead_status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "event"
+      ],
+      "dependentRequired": {
+        "value": [
+          "currency"
+        ]
+      }
+    },
+    "Event_close_convert_lead": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "close_convert_lead"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code"
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "event"
+      ],
+      "dependentRequired": {
+        "value": [
+          "currency"
+        ]
+      }
+    },
+    "Event_close_unconvert_lead": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "close_unconvert_lead"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code"
+        },
+        "value": {
+          "type": "number"
+        },
+        "unconvert_lead_reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "event"
+      ],
+      "dependentRequired": {
+        "value": [
+          "currency"
+        ]
+      }
+    },
+    "Event_level_start": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "level_start"
+        },
+        "level_name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    },
+    "Event_level_end": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "level_end"
+        },
+        "level_name": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    },
+    "Event_level_up": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "level_up"
+        },
+        "level": {
+          "type": "number"
+        },
+        "character": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    },
+    "Event_post_score": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "post_score"
+        },
+        "score": {
+          "type": "number"
+        },
+        "level": {
+          "type": "number"
+        },
+        "character": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "event",
+        "score"
+      ]
+    },
+    "Event_unlock_achievement": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "description": "Optional deduplication / trace identifier"
+        },
+        "user_id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Known non-PII user identifier"
+        },
+        "user_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "description": "GA4 user properties"
+        },
+        "debug_mode": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "page_location": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "page_referrer": {
+          "type": "string",
+          "maxLength": 420
+        },
+        "page_title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "screen_resolution": {
+          "type": "string",
+          "pattern": "^\\d+x\\d+$"
+        },
+        "event": {
+          "const": "unlock_achievement"
+        },
+        "achievement_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "event",
+        "achievement_id"
+      ]
+    }
+  }
+}
