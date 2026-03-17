@@ -1,0 +1,21 @@
+{
+  "name": "ga4-datalayer-as-code",
+  "version": "4.0.0",
+  "private": true,
+  "description": "Strict GA4 web dataLayer contract in YAML and JSON Schema for implementation, validation, monitoring, and AI-ready tracking governance.",
+  "license": "MIT",
+  "scripts": {
+    "validate:page_view": "node validators/validate.js schemas/ga4_web_tracking_contract.schema.json examples/page_view.json",
+    "validate:generate_lead": "node validators/validate.js schemas/ga4_web_tracking_contract.schema.json examples/generate_lead.json",
+    "validate:add_to_cart": "node validators/validate.js schemas/ga4_web_tracking_contract.schema.json examples/add_to_cart.json",
+    "validate:begin_checkout": "node validators/validate.js schemas/ga4_web_tracking_contract.schema.json examples/begin_checkout.json",
+    "validate:purchase": "node validators/validate.js schemas/ga4_web_tracking_contract.schema.json examples/purchase.json",
+    "validate:examples": "npm run validate:page_view && npm run validate:generate_lead && npm run validate:add_to_cart && npm run validate:begin_checkout && npm run validate:purchase"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
