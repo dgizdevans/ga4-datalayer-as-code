@@ -1,0 +1,27 @@
+{
+  "event": "purchase",
+  "page_location": "https://example.com/checkout/success",
+  "page_title": "Order Complete",
+  "transaction_id": "ORD-2026-0001",
+  "currency": "EUR",
+  "value": 129.99,
+  "shipping": 4.99,
+  "tax": 21.49,
+  "coupon": "SPRING10",
+  "customer_type": "new",
+  "items": [
+    {
+      "item_id": "sku_1",
+      "item_name": "Pro Plan",
+      "item_brand": "Example",
+      "item_category": "Subscription",
+      "price": 129.99,
+      "quantity": 1
+    }
+  ],
+  "user_id": "crm_12345",
+  "user_properties": {
+    "account_type": "b2b",
+    "user_tier": "pro"
+  }
+}
