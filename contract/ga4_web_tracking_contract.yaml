@@ -1,0 +1,926 @@
+schema_version: 4.0.0
+contract_name: ga4_web_tracking_contract
+target: dataLayer
+mode: strict
+dialect: yaml_contract_with_json_schema_keywords
+
+meta:
+  purpose:
+    - implementation
+    - qa_validation
+    - monitoring
+    - ai_baseline
+  notes:
+    - "One unified file for auto-collected, enhanced measurement, ecommerce, and other recommended events."
+    - "Runtime payload shape remains flat: dataLayer.push({ event: '...', ...params })."
+    - "Strict mode: undeclared top-level fields are denied."
+    - "item_schema allows flat GA4 item-scoped custom params only through patternProperties."
+
+definitions:
+  envelope_properties: &envelope_properties
+    event_id:
+      type: string
+      description: "Optional deduplication / trace identifier"
+    user_id:
+      type: string
+      maxLength: 256
+      description: "Known non-PII user identifier"
+    user_properties:
+      type: object
+      additionalProperties:
+        type:
+          - string
+          - number
+          - boolean
+          - "null"
+      description: "GA4 user properties"
+    debug_mode:
+      type: boolean
+
+  common_web_params: &common_web_params
+    language:
+      type: string
+    page_location:
+      type: string
+      maxLength: 1000
+    page_referrer:
+      type: string
+      maxLength: 420
+    page_title:
+      type: string
+      maxLength: 300
+    screen_resolution:
+      type: string
+      pattern: '^\d+x\d+$'
+
+  identity_params: &identity_params
+    client_id:
+      type: string
+    ga_session_id:
+      type: integer
+    ga_session_number:
+      type: integer
+    ignore_referrer:
+      type: boolean
+    traffic_type:
+      type: string
+
+  money_fields: &money_fields
+    currency:
+      type: string
+      pattern: '^[A-Z]{3}$'
+      description: "ISO 4217 currency code"
+    value:
+      type: number
+
+  money_dependency: &money_dependency
+    dependentRequired:
+      value:
+        - currency
+
+  item_schema: &item_schema
+    type: object
+    additionalProperties: false
+    anyOf:
+      - required: [item_id]
+      - required: [item_name]
+    properties:
+      item_id:
+        type: string
+      item_name:
+        type: string
+      affiliation:
+        type: string
+      coupon:
+        type: string
+      discount:
+        type: number
+      index:
+        type: integer
+      item_brand:
+        type: string
+      item_category:
+        type: string
+      item_category2:
+        type: string
+      item_category3:
+        type: string
+      item_category4:
+        type: string
+      item_category5:
+        type: string
+      item_list_id:
+        type: string
+      item_list_name:
+        type: string
+      item_variant:
+        type: string
+      location_id:
+        type: string
+      price:
+        type: number
+      quantity:
+        type: number
+        default: 1
+      creative_name:
+        type: string
+      creative_slot:
+        type: string
+      promotion_id:
+        type: string
+      promotion_name:
+        type: string
+    patternProperties:
+      '^(?!(item_id|item_name|affiliation|coupon|discount|index|item_brand|item_category|item_category2|item_category3|item_category4|item_category5|item_list_id|item_list_name|item_variant|location_id|price|quantity|creative_name|creative_slot|promotion_id|promotion_name)$)[A-Za-z][A-Za-z0-9_]{0,39}$':
+        type:
+          - string
+          - number
+          - boolean
+          - "null"
+    maxProperties: 49
+    x-flatCustomParams:
+      type: object
+      maxProperties: 27
+      description: "Flat item-scoped custom params cap; enforced against keys matched by patternProperties."
+
+  items_array: &items_array
+    type: array
+    minItems: 1
+    maxItems: 200
+    items: *item_schema
+
+  single_item_array: &single_item_array
+    type: array
+    minItems: 1
+    maxItems: 1
+    items: *item_schema
+
+contract:
+  sections:
+    auto_collected:
+      description: "No manual implementation required, included as baseline."
+      events:
+        first_visit:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+          properties:
+            <<: [*envelope_properties, *common_web_params, *identity_params]
+            event:
+              const: first_visit
+
+        session_start:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+          properties:
+            <<: [*envelope_properties, *common_web_params, *identity_params]
+            event:
+              const: session_start
+
+        user_engagement:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+          properties:
+            <<: *envelope_properties
+            event:
+              const: user_engagement
+            engagement_time_msec:
+              type: integer
+
+    enhanced_measurement:
+      description: "Auto-collected on web when Enhanced Measurement is enabled."
+      events:
+        page_view:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+          properties:
+            <<: [*envelope_properties, *common_web_params]
+            event:
+              const: page_view
+            engagement_time_msec:
+              type: integer
+
+        scroll:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+          properties:
+            <<: [*envelope_properties, *common_web_params]
+            event:
+              const: scroll
+            engagement_time_msec:
+              type: integer
+
+        click:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+          properties:
+            <<: [*envelope_properties, *common_web_params]
+            event:
+              const: click
+            link_classes:
+              type: string
+            link_domain:
+              type: string
+            link_id:
+              type: string
+            link_url:
+              type: string
+            outbound:
+              type: boolean
+
+        file_download:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+          properties:
+            <<: [*envelope_properties, *common_web_params]
+            event:
+              const: file_download
+            file_extension:
+              type: string
+            file_name:
+              type: string
+            link_classes:
+              type: string
+            link_id:
+              type: string
+            link_text:
+              type: string
+            link_url:
+              type: string
+
+        form_start:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+          properties:
+            <<: [*envelope_properties, *common_web_params]
+            event:
+              const: form_start
+            form_id:
+              type: string
+            form_name:
+              type: string
+            form_destination:
+              type: string
+
+        form_submit:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+          properties:
+            <<: [*envelope_properties, *common_web_params]
+            event:
+              const: form_submit
+            form_id:
+              type: string
+            form_name:
+              type: string
+            form_destination:
+              type: string
+            form_submit_text:
+              type: string
+
+        video_start:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+          properties:
+            <<: [*envelope_properties, *common_web_params]
+            event:
+              const: video_start
+            video_current_time:
+              type: number
+            video_duration:
+              type: number
+            video_percent:
+              type: number
+            video_provider:
+              type: string
+            video_title:
+              type: string
+            video_url:
+              type: string
+            visible:
+              type: boolean
+
+        video_progress:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+          properties:
+            <<: [*envelope_properties, *common_web_params]
+            event:
+              const: video_progress
+            video_current_time:
+              type: number
+            video_duration:
+              type: number
+            video_percent:
+              type: number
+            video_provider:
+              type: string
+            video_title:
+              type: string
+            video_url:
+              type: string
+            visible:
+              type: boolean
+
+        video_complete:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+          properties:
+            <<: [*envelope_properties, *common_web_params]
+            event:
+              const: video_complete
+            video_current_time:
+              type: number
+            video_duration:
+              type: number
+            video_percent:
+              type: number
+            video_provider:
+              type: string
+            video_title:
+              type: string
+            video_url:
+              type: string
+            visible:
+              type: boolean
+
+        view_search_results:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+          properties:
+            <<: [*envelope_properties, *common_web_params]
+            event:
+              const: view_search_results
+            search_term:
+              type: string
+            unique_search_term:
+              type: integer
+          patternProperties:
+            '^q_[A-Za-z0-9_]+$':
+              type: string
+
+    ecommerce:
+      description: "Google 'For online sales' events; purchase and refund anchored here."
+      shared:
+        item_schema: *item_schema
+        items_array: *items_array
+        single_item_array: *single_item_array
+
+      events:
+        add_payment_info:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+            - items
+          properties:
+            <<: [*envelope_properties, *common_web_params]
+            event:
+              const: add_payment_info
+            <<: *money_fields
+            coupon:
+              type: string
+            payment_type:
+              type: string
+            items: *items_array
+          <<: *money_dependency
+
+        add_shipping_info:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+            - items
+          properties:
+            <<: [*envelope_properties, *common_web_params]
+            event:
+              const: add_shipping_info
+            <<: *money_fields
+            coupon:
+              type: string
+            shipping_tier:
+              type: string
+            items: *items_array
+          <<: *money_dependency
+
+        add_to_cart:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+            - items
+          properties:
+            <<: [*envelope_properties, *common_web_params]
+            event:
+              const: add_to_cart
+            <<: *money_fields
+            items: *items_array
+          <<: *money_dependency
+
+        add_to_wishlist:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+            - items
+          properties:
+            <<: [*envelope_properties, *common_web_params]
+            event:
+              const: add_to_wishlist
+            <<: *money_fields
+            items: *items_array
+          <<: *money_dependency
+
+        begin_checkout:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+            - items
+          properties:
+            <<: [*envelope_properties, *common_web_params]
+            event:
+              const: begin_checkout
+            <<: *money_fields
+            coupon:
+              type: string
+            items: *items_array
+          <<: *money_dependency
+
+        purchase:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+            - transaction_id
+            - items
+          properties:
+            <<: [*envelope_properties, *common_web_params]
+            event:
+              const: purchase
+            <<: *money_fields
+            transaction_id:
+              type: string
+            coupon:
+              type: string
+            shipping:
+              type: number
+            tax:
+              type: number
+            customer_type:
+              type: string
+              enum:
+                - new
+                - returning
+            items: *items_array
+          <<: *money_dependency
+
+        refund:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+            - transaction_id
+          properties:
+            <<: [*envelope_properties, *common_web_params]
+            event:
+              const: refund
+            <<: *money_fields
+            transaction_id:
+              type: string
+            coupon:
+              type: string
+            shipping:
+              type: number
+            tax:
+              type: number
+            items: *items_array
+          <<: *money_dependency
+
+        remove_from_cart:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+            - items
+          properties:
+            <<: [*envelope_properties, *common_web_params]
+            event:
+              const: remove_from_cart
+            <<: *money_fields
+            items: *items_array
+          <<: *money_dependency
+
+        select_item:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+            - items
+          properties:
+            <<: [*envelope_properties, *common_web_params]
+            event:
+              const: select_item
+            item_list_id:
+              type: string
+            item_list_name:
+              type: string
+            items: *single_item_array
+
+        select_promotion:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+          properties:
+            <<: [*envelope_properties, *common_web_params]
+            event:
+              const: select_promotion
+            creative_name:
+              type: string
+            creative_slot:
+              type: string
+            promotion_id:
+              type: string
+            promotion_name:
+              type: string
+            items: *items_array
+
+        view_cart:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+            - items
+          properties:
+            <<: [*envelope_properties, *common_web_params]
+            event:
+              const: view_cart
+            <<: *money_fields
+            items: *items_array
+          <<: *money_dependency
+
+        view_item:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+            - items
+          properties:
+            <<: [*envelope_properties, *common_web_params]
+            event:
+              const: view_item
+            <<: *money_fields
+            items: *items_array
+          <<: *money_dependency
+
+        view_item_list:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+            - items
+          properties:
+            <<: [*envelope_properties, *common_web_params]
+            event:
+              const: view_item_list
+            <<: *money_fields
+            item_list_id:
+              type: string
+            item_list_name:
+              type: string
+            items: *items_array
+          <<: *money_dependency
+
+        view_promotion:
+          type: object
+          additionalProperties: false
+          required:
+            - event
+            - items
+          properties:
+            <<: [*envelope_properties, *common_web_params]
+            event:
+              const: view_promotion
+            creative_name:
+              type: string
+            creative_slot:
+              type: string
+            promotion_id:
+              type: string
+            promotion_name:
+              type: string
+            items: *single_item_array
+
+    recommended_other:
+      all_properties:
+        events:
+          generate_lead:
+            type: object
+            additionalProperties: false
+            required:
+              - event
+            properties:
+              <<: [*envelope_properties, *common_web_params]
+              event:
+                const: generate_lead
+              <<: *money_fields
+              lead_source:
+                type: string
+            <<: *money_dependency
+
+          join_group:
+            type: object
+            additionalProperties: false
+            required:
+              - event
+            properties:
+              <<: [*envelope_properties, *common_web_params]
+              event:
+                const: join_group
+              group_id:
+                type: string
+
+          login:
+            type: object
+            additionalProperties: false
+            required:
+              - event
+            properties:
+              <<: [*envelope_properties, *common_web_params]
+              event:
+                const: login
+              method:
+                type: string
+
+          search:
+            type: object
+            additionalProperties: false
+            required:
+              - event
+              - search_term
+            properties:
+              <<: [*envelope_properties, *common_web_params]
+              event:
+                const: search
+              search_term:
+                type: string
+
+          select_content:
+            type: object
+            additionalProperties: false
+            required:
+              - event
+            properties:
+              <<: [*envelope_properties, *common_web_params]
+              event:
+                const: select_content
+              content_type:
+                type: string
+              content_id:
+                type: string
+
+          share:
+            type: object
+            additionalProperties: false
+            required:
+              - event
+            properties:
+              <<: [*envelope_properties, *common_web_params]
+              event:
+                const: share
+              method:
+                type: string
+              content_type:
+                type: string
+              item_id:
+                type: string
+
+          sign_up:
+            type: object
+            additionalProperties: false
+            required:
+              - event
+            properties:
+              <<: [*envelope_properties, *common_web_params]
+              event:
+                const: sign_up
+              method:
+                type: string
+
+          earn_virtual_currency:
+            type: object
+            additionalProperties: false
+            required:
+              - event
+            properties:
+              <<: [*envelope_properties, *common_web_params]
+              event:
+                const: earn_virtual_currency
+              virtual_currency_name:
+                type: string
+              value:
+                type: number
+
+          spend_virtual_currency:
+            type: object
+            additionalProperties: false
+            required:
+              - event
+              - value
+              - virtual_currency_name
+            properties:
+              <<: [*envelope_properties, *common_web_params]
+              event:
+                const: spend_virtual_currency
+              value:
+                type: number
+              virtual_currency_name:
+                type: string
+              item_name:
+                type: string
+
+          tutorial_begin:
+            type: object
+            additionalProperties: false
+            required:
+              - event
+            properties:
+              <<: [*envelope_properties, *common_web_params]
+              event:
+                const: tutorial_begin
+
+          tutorial_complete:
+            type: object
+            additionalProperties: false
+            required:
+              - event
+            properties:
+              <<: [*envelope_properties, *common_web_params]
+              event:
+                const: tutorial_complete
+
+      lead_generation:
+        events:
+          qualify_lead:
+            type: object
+            additionalProperties: false
+            required:
+              - event
+            properties:
+              <<: [*envelope_properties, *common_web_params]
+              event:
+                const: qualify_lead
+              <<: *money_fields
+            <<: *money_dependency
+
+          disqualify_lead:
+            type: object
+            additionalProperties: false
+            required:
+              - event
+            properties:
+              <<: [*envelope_properties, *common_web_params]
+              event:
+                const: disqualify_lead
+              <<: *money_fields
+              disqualified_lead_reason:
+                type: string
+            <<: *money_dependency
+
+          working_lead:
+            type: object
+            additionalProperties: false
+            required:
+              - event
+            properties:
+              <<: [*envelope_properties, *common_web_params]
+              event:
+                const: working_lead
+              <<: *money_fields
+              lead_status:
+                type: string
+            <<: *money_dependency
+
+          close_convert_lead:
+            type: object
+            additionalProperties: false
+            required:
+              - event
+            properties:
+              <<: [*envelope_properties, *common_web_params]
+              event:
+                const: close_convert_lead
+              <<: *money_fields
+            <<: *money_dependency
+
+          close_unconvert_lead:
+            type: object
+            additionalProperties: false
+            required:
+              - event
+            properties:
+              <<: [*envelope_properties, *common_web_params]
+              event:
+                const: close_unconvert_lead
+              <<: *money_fields
+              unconvert_lead_reason:
+                type: string
+            <<: *money_dependency
+
+      games:
+        events:
+          level_start:
+            type: object
+            additionalProperties: false
+            required:
+              - event
+            properties:
+              <<: [*envelope_properties, *common_web_params]
+              event:
+                const: level_start
+              level_name:
+                type: string
+
+          level_end:
+            type: object
+            additionalProperties: false
+            required:
+              - event
+            properties:
+              <<: [*envelope_properties, *common_web_params]
+              event:
+                const: level_end
+              level_name:
+                type: string
+              success:
+                type: boolean
+
+          level_up:
+            type: object
+            additionalProperties: false
+            required:
+              - event
+            properties:
+              <<: [*envelope_properties, *common_web_params]
+              event:
+                const: level_up
+              level:
+                type: number
+              character:
+                type: string
+
+          post_score:
+            type: object
+            additionalProperties: false
+            required:
+              - event
+              - score
+            properties:
+              <<: [*envelope_properties, *common_web_params]
+              event:
+                const: post_score
+              score:
+                type: number
+              level:
+                type: number
+              character:
+                type: string
+
+          unlock_achievement:
+            type: object
+            additionalProperties: false
+            required:
+              - event
+              - achievement_id
+            properties:
+              <<: [*envelope_properties, *common_web_params]
+              event:
+                const: unlock_achievement
+              achievement_id:
+                type: string
