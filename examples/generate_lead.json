@@ -1,0 +1,13 @@
+{
+  "event": "generate_lead",
+  "page_location": "https://example.com/demo",
+  "page_title": "Book a Demo",
+  "currency": "EUR",
+  "value": 150,
+  "lead_source": "demo_form",
+  "user_id": "crm_12345",
+  "user_properties": {
+    "account_type": "b2b",
+    "user_tier": "pro"
+  }
+}
