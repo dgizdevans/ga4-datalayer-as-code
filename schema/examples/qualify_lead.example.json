@@ -1,0 +1,8 @@
+{
+  "event": "qualify_lead",
+  "page_location": "https://example.com/pricing",
+  "page_title": "Pricing",
+  "language": "en-us",
+  "currency": "EUR",
+  "value": 500
+}

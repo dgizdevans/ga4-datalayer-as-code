@@ -1,0 +1,10 @@
+{
+  "event": "form_submit",
+  "page_location": "https://example.com/pricing",
+  "page_title": "Pricing",
+  "language": "en-us",
+  "form_id": "newsletter-form",
+  "form_name": "newsletter",
+  "form_destination": "https://example.com/subscribe",
+  "form_submit_text": "Subscribe"
+}

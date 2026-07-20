@@ -1,0 +1,7 @@
+{
+  "event": "login",
+  "page_location": "https://example.com/pricing",
+  "page_title": "Pricing",
+  "language": "en-us",
+  "method": "email"
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/events/share.json",
+  "title": "share",
+  "description": "Content shared.",
+  "type": "object",
+  "x-event-class": "recommended",
+  "allOf": [
+    {
+      "$ref": "../shared/envelope.json"
+    },
+    {
+      "$ref": "../shared/common_web_params.json"
+    }
+  ],
+  "required": [
+    "event"
+  ],
+  "properties": {
+    "event": {
+      "const": "share"
+    },
+    "method": {
+      "type": "string",
+      "description": "Method used for the action, e.g. authentication provider or share channel.",
+      "examples": [
+        "email",
+        "google"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "content_type": {
+      "type": "string",
+      "description": "Type of the selected or shared content.",
+      "examples": [
+        "article"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "item_id": {
+      "type": "string",
+      "description": "Identifier of the shared item.",
+      "examples": [
+        "sku_1"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    }
+  },
+  "unevaluatedProperties": false
+}

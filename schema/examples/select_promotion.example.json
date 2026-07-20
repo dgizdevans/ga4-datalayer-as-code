@@ -1,0 +1,20 @@
+{
+  "event": "select_promotion",
+  "page_location": "https://example.com/pricing",
+  "page_title": "Pricing",
+  "language": "en-us",
+  "promotion_id": "promo_summer",
+  "promotion_name": "Summer Sale",
+  "creative_name": "summer_banner",
+  "creative_slot": "home_hero_1",
+  "items": [
+    {
+      "item_id": "sku_1",
+      "item_name": "Pro Plan",
+      "item_brand": "Example",
+      "item_category": "Subscription",
+      "price": 129.99,
+      "quantity": 1
+    }
+  ]
+}

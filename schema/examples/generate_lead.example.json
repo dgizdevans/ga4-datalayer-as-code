@@ -1,0 +1,9 @@
+{
+  "event": "generate_lead",
+  "page_location": "https://example.com/pricing",
+  "page_title": "Pricing",
+  "language": "en-us",
+  "currency": "EUR",
+  "value": 500,
+  "lead_source": "contact_form"
+}

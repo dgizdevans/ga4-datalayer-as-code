@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/events/level_end.json",
+  "title": "level_end",
+  "description": "Level or stage finished.",
+  "type": "object",
+  "x-event-class": "recommended",
+  "allOf": [
+    {
+      "$ref": "../shared/envelope.json"
+    },
+    {
+      "$ref": "../shared/common_web_params.json"
+    }
+  ],
+  "required": [
+    "event"
+  ],
+  "properties": {
+    "event": {
+      "const": "level_end"
+    },
+    "level_name": {
+      "type": "string",
+      "description": "Name of the level.",
+      "examples": [
+        "onboarding_1"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "success": {
+      "type": "boolean",
+      "description": "True when the level was completed successfully.",
+      "examples": [
+        true
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    }
+  },
+  "unevaluatedProperties": false
+}

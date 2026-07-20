@@ -1,0 +1,19 @@
+{
+  "event": "refund",
+  "page_location": "https://example.com/pricing",
+  "page_title": "Pricing",
+  "language": "en-us",
+  "transaction_id": "ORD-2026-0001",
+  "currency": "EUR",
+  "value": 129.99,
+  "items": [
+    {
+      "item_id": "sku_1",
+      "item_name": "Pro Plan",
+      "item_brand": "Example",
+      "item_category": "Subscription",
+      "price": 129.99,
+      "quantity": 1
+    }
+  ]
+}

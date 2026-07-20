@@ -1,0 +1,8 @@
+{
+  "event": "select_content",
+  "page_location": "https://example.com/pricing",
+  "page_title": "Pricing",
+  "language": "en-us",
+  "content_type": "article",
+  "content_id": "post_2026_07"
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/events/search.json",
+  "title": "search",
+  "description": "On-site search performed. Manual counterpart to view_search_results.",
+  "type": "object",
+  "x-event-class": "recommended",
+  "allOf": [
+    {
+      "$ref": "../shared/envelope.json"
+    },
+    {
+      "$ref": "../shared/common_web_params.json"
+    }
+  ],
+  "required": [
+    "event",
+    "search_term"
+  ],
+  "properties": {
+    "event": {
+      "const": "search"
+    },
+    "search_term": {
+      "type": "string",
+      "description": "Query string entered by the visitor.",
+      "examples": [
+        "silver ring"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    }
+  },
+  "unevaluatedProperties": false
+}

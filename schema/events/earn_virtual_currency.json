@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/events/earn_virtual_currency.json",
+  "title": "earn_virtual_currency",
+  "description": "Virtual currency earned. Note: value here is an amount of virtual currency, so the monetary currency rule is intentionally not composed.",
+  "type": "object",
+  "x-event-class": "recommended",
+  "allOf": [
+    {
+      "$ref": "../shared/envelope.json"
+    },
+    {
+      "$ref": "../shared/common_web_params.json"
+    }
+  ],
+  "required": [
+    "event"
+  ],
+  "properties": {
+    "event": {
+      "const": "earn_virtual_currency"
+    },
+    "virtual_currency_name": {
+      "type": "string",
+      "description": "Name of the virtual currency.",
+      "examples": [
+        "coins"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "value": {
+      "type": "number",
+      "description": "Monetary value of the event in the given currency.",
+      "examples": [
+        129.99
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    }
+  },
+  "unevaluatedProperties": false
+}

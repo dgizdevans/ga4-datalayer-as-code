@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/events/user_engagement.json",
+  "title": "user_engagement",
+  "description": "Periodic engagement heartbeat while the page is in focus. Auto-collected by GA4.",
+  "type": "object",
+  "x-event-class": "auto_collected",
+  "allOf": [
+    {
+      "$ref": "../shared/envelope.json"
+    }
+  ],
+  "required": [
+    "event"
+  ],
+  "properties": {
+    "event": {
+      "const": "user_engagement"
+    },
+    "engagement_time_msec": {
+      "type": "integer",
+      "description": "Engaged time in milliseconds attributed to this hit.",
+      "examples": [
+        1500
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    }
+  },
+  "unevaluatedProperties": false
+}

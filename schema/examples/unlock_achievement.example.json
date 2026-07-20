@@ -1,0 +1,7 @@
+{
+  "event": "unlock_achievement",
+  "page_location": "https://example.com/pricing",
+  "page_title": "Pricing",
+  "language": "en-us",
+  "achievement_id": "first_purchase"
+}

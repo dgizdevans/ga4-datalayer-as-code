@@ -1,0 +1,9 @@
+{
+  "event": "close_unconvert_lead",
+  "page_location": "https://example.com/pricing",
+  "page_title": "Pricing",
+  "language": "en-us",
+  "currency": "EUR",
+  "value": 500,
+  "unconvert_lead_reason": "lost_to_competitor"
+}

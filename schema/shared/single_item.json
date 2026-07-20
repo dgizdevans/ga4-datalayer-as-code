@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/shared/single_item.json",
+  "title": "single_item",
+  "description": "Array holding exactly one GA4 ecommerce item. Used where GA4 defines a single-item context.",
+  "type": "array",
+  "minItems": 1,
+  "maxItems": 1,
+  "items": {
+    "$ref": "item.json"
+  }
+}

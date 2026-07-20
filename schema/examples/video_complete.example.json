@@ -1,0 +1,13 @@
+{
+  "event": "video_complete",
+  "page_location": "https://example.com/pricing",
+  "page_title": "Pricing",
+  "language": "en-us",
+  "video_title": "Product tour",
+  "video_provider": "youtube",
+  "video_url": "https://www.youtube.com/watch?v=abc123",
+  "video_duration": 180,
+  "video_current_time": 180,
+  "video_percent": 100,
+  "visible": true
+}

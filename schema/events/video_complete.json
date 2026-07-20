@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/events/video_complete.json",
+  "title": "video_complete",
+  "description": "Embedded video finished.",
+  "type": "object",
+  "x-event-class": "enhanced_measurement",
+  "allOf": [
+    {
+      "$ref": "../shared/envelope.json"
+    },
+    {
+      "$ref": "../shared/common_web_params.json"
+    }
+  ],
+  "required": [
+    "event"
+  ],
+  "properties": {
+    "event": {
+      "const": "video_complete"
+    },
+    "video_current_time": {
+      "type": "number",
+      "description": "Playback position in seconds when the event fired.",
+      "examples": [
+        12
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "video_duration": {
+      "type": "number",
+      "description": "Total duration of the video in seconds.",
+      "examples": [
+        180
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "video_percent": {
+      "type": "number",
+      "description": "Playback progress as an integer percentage.",
+      "examples": [
+        25
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "video_provider": {
+      "type": "string",
+      "description": "Video hosting provider.",
+      "examples": [
+        "youtube"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "video_title": {
+      "type": "string",
+      "description": "Title of the video.",
+      "examples": [
+        "Product tour"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "video_url": {
+      "type": "string",
+      "description": "URL of the video.",
+      "examples": [
+        "https://www.youtube.com/watch?v=abc123"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "visible": {
+      "type": "boolean",
+      "description": "True when the player was visible in the viewport.",
+      "examples": [
+        true
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    }
+  },
+  "unevaluatedProperties": false
+}

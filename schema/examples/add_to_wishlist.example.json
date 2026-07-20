@@ -1,0 +1,18 @@
+{
+  "event": "add_to_wishlist",
+  "page_location": "https://example.com/pricing",
+  "page_title": "Pricing",
+  "language": "en-us",
+  "currency": "EUR",
+  "value": 129.99,
+  "items": [
+    {
+      "item_id": "sku_1",
+      "item_name": "Pro Plan",
+      "item_brand": "Example",
+      "item_category": "Subscription",
+      "price": 129.99,
+      "quantity": 1
+    }
+  ]
+}

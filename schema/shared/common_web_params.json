@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/shared/common_web_params.json",
+  "title": "common_web_params",
+  "description": "Common web context parameters available on any web event.",
+  "type": "object",
+  "properties": {
+    "language": {
+      "type": "string",
+      "description": "Browser language of the visitor.",
+      "examples": [
+        "en-us"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "page_location": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Full URL of the current page.",
+      "examples": [
+        "https://example.com/pricing"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "page_referrer": {
+      "type": "string",
+      "maxLength": 420,
+      "description": "Full URL of the previous page.",
+      "examples": [
+        "https://www.google.com/"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "page_title": {
+      "type": "string",
+      "maxLength": 300,
+      "description": "Document title of the current page.",
+      "examples": [
+        "Pricing"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "screen_resolution": {
+      "type": "string",
+      "pattern": "^\\d+x\\d+$",
+      "description": "Screen resolution as WIDTHxHEIGHT.",
+      "examples": [
+        "1920x1080"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    }
+  }
+}

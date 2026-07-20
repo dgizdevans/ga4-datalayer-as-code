@@ -1,0 +1,7 @@
+{
+  "event": "page_view",
+  "page_location": "https://example.com/pricing",
+  "page_title": "Pricing",
+  "language": "en-us",
+  "engagement_time_msec": 1500
+}

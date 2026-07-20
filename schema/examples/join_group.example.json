@@ -1,0 +1,7 @@
+{
+  "event": "join_group",
+  "page_location": "https://example.com/pricing",
+  "page_title": "Pricing",
+  "language": "en-us",
+  "group_id": "team_42"
+}

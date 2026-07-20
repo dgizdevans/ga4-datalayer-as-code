@@ -1,0 +1,9 @@
+{
+  "event": "disqualify_lead",
+  "page_location": "https://example.com/pricing",
+  "page_title": "Pricing",
+  "language": "en-us",
+  "currency": "EUR",
+  "value": 500,
+  "disqualified_lead_reason": "no_budget"
+}

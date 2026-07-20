@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/shared/money_dependency.json",
+  "title": "money_dependency",
+  "description": "Executable rule: whenever value is present, currency must be present too.",
+  "type": "object",
+  "dependentRequired": {
+    "value": [
+      "currency"
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "event": "select_item",
+  "page_location": "https://example.com/pricing",
+  "page_title": "Pricing",
+  "language": "en-us",
+  "item_list_id": "search_results",
+  "item_list_name": "Search results",
+  "items": [
+    {
+      "item_id": "sku_1",
+      "item_name": "Pro Plan",
+      "item_brand": "Example",
+      "item_category": "Subscription",
+      "price": 129.99,
+      "quantity": 1
+    }
+  ]
+}

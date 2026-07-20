@@ -1,0 +1,9 @@
+{
+  "event": "spend_virtual_currency",
+  "page_location": "https://example.com/pricing",
+  "page_title": "Pricing",
+  "language": "en-us",
+  "virtual_currency_name": "coins",
+  "value": 40,
+  "item_name": "extra_life"
+}
