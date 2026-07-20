@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/events/scroll.json",
+  "title": "scroll",
+  "description": "Visitor reached 90% page depth.",
+  "type": "object",
+  "x-event-class": "enhanced_measurement",
+  "allOf": [
+    {
+      "$ref": "../shared/envelope.json"
+    },
+    {
+      "$ref": "../shared/common_web_params.json"
+    }
+  ],
+  "required": [
+    "event"
+  ],
+  "properties": {
+    "event": {
+      "const": "scroll"
+    },
+    "engagement_time_msec": {
+      "type": "integer",
+      "description": "Engaged time in milliseconds attributed to this hit.",
+      "examples": [
+        1500
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    }
+  },
+  "unevaluatedProperties": false
+}

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/events/spend_virtual_currency.json",
+  "title": "spend_virtual_currency",
+  "description": "Virtual currency spent. Note: value here is an amount of virtual currency, so the monetary currency rule is intentionally not composed.",
+  "type": "object",
+  "x-event-class": "recommended",
+  "allOf": [
+    {
+      "$ref": "../shared/envelope.json"
+    },
+    {
+      "$ref": "../shared/common_web_params.json"
+    }
+  ],
+  "required": [
+    "event",
+    "value",
+    "virtual_currency_name"
+  ],
+  "properties": {
+    "event": {
+      "const": "spend_virtual_currency"
+    },
+    "value": {
+      "type": "number",
+      "description": "Monetary value of the event in the given currency.",
+      "examples": [
+        129.99
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "virtual_currency_name": {
+      "type": "string",
+      "description": "Name of the virtual currency.",
+      "examples": [
+        "coins"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "item_name": {
+      "type": "string",
+      "description": "Name of the item the virtual currency was spent on.",
+      "examples": [
+        "extra_life"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    }
+  },
+  "unevaluatedProperties": false
+}

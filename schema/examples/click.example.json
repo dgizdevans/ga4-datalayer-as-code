@@ -1,0 +1,9 @@
+{
+  "event": "click",
+  "page_location": "https://example.com/pricing",
+  "page_title": "Pricing",
+  "language": "en-us",
+  "link_url": "https://partner.example.org/offer",
+  "link_domain": "partner.example.org",
+  "outbound": true
+}

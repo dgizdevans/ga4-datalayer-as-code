@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/events/view_promotion.json",
+  "title": "view_promotion",
+  "description": "Promotion viewed.",
+  "type": "object",
+  "x-event-class": "ecommerce",
+  "allOf": [
+    {
+      "$ref": "../shared/envelope.json"
+    },
+    {
+      "$ref": "../shared/common_web_params.json"
+    }
+  ],
+  "required": [
+    "event",
+    "items"
+  ],
+  "properties": {
+    "event": {
+      "const": "view_promotion"
+    },
+    "creative_name": {
+      "type": "string",
+      "description": "Name of the promotional creative.",
+      "examples": [
+        "summer_banner"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "creative_slot": {
+      "type": "string",
+      "description": "Slot where the creative was shown.",
+      "examples": [
+        "home_hero_1"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "promotion_id": {
+      "type": "string",
+      "description": "Identifier of the promotion.",
+      "examples": [
+        "promo_summer"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "promotion_name": {
+      "type": "string",
+      "description": "Name of the promotion.",
+      "examples": [
+        "Summer Sale"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "items": {
+      "$ref": "../shared/single_item.json"
+    }
+  },
+  "unevaluatedProperties": false
+}

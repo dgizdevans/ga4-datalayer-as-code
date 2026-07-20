@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/events/add_to_cart.json",
+  "title": "add_to_cart",
+  "description": "Item(s) added to the cart.",
+  "type": "object",
+  "x-event-class": "ecommerce",
+  "allOf": [
+    {
+      "$ref": "../shared/envelope.json"
+    },
+    {
+      "$ref": "../shared/common_web_params.json"
+    },
+    {
+      "$ref": "../shared/money_dependency.json"
+    }
+  ],
+  "required": [
+    "event",
+    "items"
+  ],
+  "properties": {
+    "event": {
+      "const": "add_to_cart"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 currency code. Required whenever value is present.",
+      "examples": [
+        "EUR"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "value": {
+      "type": "number",
+      "description": "Monetary value of the event in the given currency.",
+      "examples": [
+        129.99
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "items": {
+      "$ref": "../shared/items.json"
+    }
+  },
+  "unevaluatedProperties": false
+}

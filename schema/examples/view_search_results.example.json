@@ -1,0 +1,8 @@
+{
+  "event": "view_search_results",
+  "page_location": "https://example.com/pricing",
+  "page_title": "Pricing",
+  "language": "en-us",
+  "search_term": "silver ring",
+  "unique_search_term": 1
+}

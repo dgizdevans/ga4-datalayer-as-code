@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/events/form_submit.json",
+  "title": "form_submit",
+  "description": "Form submitted.",
+  "type": "object",
+  "x-event-class": "enhanced_measurement",
+  "allOf": [
+    {
+      "$ref": "../shared/envelope.json"
+    },
+    {
+      "$ref": "../shared/common_web_params.json"
+    }
+  ],
+  "required": [
+    "event"
+  ],
+  "properties": {
+    "event": {
+      "const": "form_submit"
+    },
+    "form_id": {
+      "type": "string",
+      "description": "DOM id of the form element.",
+      "examples": [
+        "newsletter-form"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "form_name": {
+      "type": "string",
+      "description": "Name attribute of the form element.",
+      "examples": [
+        "newsletter"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "form_destination": {
+      "type": "string",
+      "description": "URL the form submits to.",
+      "examples": [
+        "https://example.com/subscribe"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "form_submit_text": {
+      "type": "string",
+      "description": "Text of the submit button.",
+      "examples": [
+        "Subscribe"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    }
+  },
+  "unevaluatedProperties": false
+}

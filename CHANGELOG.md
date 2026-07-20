@@ -4,12 +4,35 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog, and this project follows semantic versioning for contract changes.
 
+## [5.0.0] - 2026-07-20
+
+Full restructure from a monolithic contract to composable per-event schemas, driven by production experience with the previous version.
+
+### Added
+- `schema/events/` — 48 event schemas, one file per event, reviewable in isolation
+- `schema/shared/` — 7 composable definition schemas (`envelope`, `common_web_params`, `identity_params`, `item`, `items`, `single_item`, `money_dependency`) composed into events via `allOf` + `$ref`
+- `schema/examples/` — 48 paired example payloads; every schema must have exactly one validating example
+- `x-event-class` annotation on every event (`auto_collected` / `enhanced_measurement` / `ecommerce` / `recommended`)
+- `x-pii` and `x-sensitivity` annotations on every field
+- `scripts/validate-schemas.js` — compiles all schemas (Ajv, draft 2020-12), CI-ready
+- `scripts/validate-examples.js` — validates schema/example pairing and every payload, CI-ready
+- `scripts/generate-index.js` — generates `schema/index.json`
+- `scripts/generate-docs.js` — generates `docs/EVENTS.md`
+
+### Changed
+- Strictness model: `unevaluatedProperties: false` replaces `additionalProperties: false`, because `additionalProperties` cannot see fields declared in `allOf`-referenced schemas — composition and strictness now coexist
+- Custom parameters document values with `examples` instead of `enum`; closed lists on business-defined fields caused false validation failures in production (`purchase.customer_type` migrated)
+- The human-readable event reference is now generated (`docs/EVENTS.md`) from the schemas instead of being maintained in parallel
+- `money_dependency` (`value` ⇒ `currency`) is composed only on events where `value` is monetary; `earn_virtual_currency` and `spend_virtual_currency` intentionally omit it
+
+### Removed
+- `contract/ga4_web_tracking_contract.yaml` — the parallel human-readable contract; duplication with the JSON Schema caused drift, and the readable form is now a generated artifact
+- `schemas/ga4_web_tracking_contract.schema.json` — the 3,500-line monolith, replaced by per-event files
+- `validators/validate.js` and per-example npm scripts — replaced by the paired-example validator covering all events
+
 ## [Unreleased]
 
 ### Planned
-- JSON Schema export aligned 1:1 with the YAML contract
-- Ajv-based validator CLI
-- Validated example payloads
 - CI workflow for schema and example checks
 
 ## [4.0.0] - 2026-03-17

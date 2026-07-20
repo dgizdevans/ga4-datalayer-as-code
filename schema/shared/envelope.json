@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/shared/envelope.json",
+  "title": "envelope",
+  "description": "Envelope fields allowed on every dataLayer.push: identity, user properties, and debug routing.",
+  "type": "object",
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "description": "Optional deduplication or trace identifier for the push.",
+      "examples": [
+        "evt_9f2c1a"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "user_id": {
+      "type": "string",
+      "maxLength": 256,
+      "description": "Known non-PII user identifier set after authentication.",
+      "examples": [
+        "crm_12345"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "low"
+    },
+    "user_properties": {
+      "type": "object",
+      "additionalProperties": {
+        "type": [
+          "string",
+          "number",
+          "boolean",
+          "null"
+        ]
+      },
+      "description": "GA4 user properties as a flat map of scalar values.",
+      "examples": [
+        {
+          "account_type": "b2b",
+          "user_tier": "pro"
+        }
+      ],
+      "x-pii": false,
+      "x-sensitivity": "low"
+    },
+    "debug_mode": {
+      "type": "boolean",
+      "description": "Enables GA4 DebugView routing for this hit.",
+      "examples": [
+        true
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    }
+  }
+}

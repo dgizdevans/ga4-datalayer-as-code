@@ -1,0 +1,9 @@
+{
+  "event": "file_download",
+  "page_location": "https://example.com/pricing",
+  "page_title": "Pricing",
+  "language": "en-us",
+  "file_name": "/assets/whitepaper.pdf",
+  "file_extension": "pdf",
+  "link_text": "Download whitepaper"
+}

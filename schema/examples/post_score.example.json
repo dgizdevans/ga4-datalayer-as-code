@@ -1,0 +1,8 @@
+{
+  "event": "post_score",
+  "page_location": "https://example.com/pricing",
+  "page_title": "Pricing",
+  "language": "en-us",
+  "score": 1200,
+  "level": 5
+}

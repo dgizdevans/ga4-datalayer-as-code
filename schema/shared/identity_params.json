@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/shared/identity_params.json",
+  "title": "identity_params",
+  "description": "GA4 client and session identity parameters. Composed only on auto-collected session boundary events.",
+  "type": "object",
+  "properties": {
+    "client_id": {
+      "type": "string",
+      "description": "GA4 client identifier from the _ga cookie.",
+      "examples": [
+        "1234567890.1712345678"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "low"
+    },
+    "ga_session_id": {
+      "type": "integer",
+      "description": "GA4 session identifier.",
+      "examples": [
+        1712345678
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "ga_session_number": {
+      "type": "integer",
+      "description": "Ordinal number of the session for this client.",
+      "examples": [
+        3
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "ignore_referrer": {
+      "type": "boolean",
+      "description": "Instructs GA4 to ignore the referrer for attribution.",
+      "examples": [
+        true
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "traffic_type": {
+      "type": "string",
+      "description": "Traffic segment label, e.g. for internal traffic filtering.",
+      "examples": [
+        "internal"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    }
+  }
+}

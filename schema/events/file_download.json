@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/events/file_download.json",
+  "title": "file_download",
+  "description": "Click on a link to a downloadable file.",
+  "type": "object",
+  "x-event-class": "enhanced_measurement",
+  "allOf": [
+    {
+      "$ref": "../shared/envelope.json"
+    },
+    {
+      "$ref": "../shared/common_web_params.json"
+    }
+  ],
+  "required": [
+    "event"
+  ],
+  "properties": {
+    "event": {
+      "const": "file_download"
+    },
+    "file_extension": {
+      "type": "string",
+      "description": "Extension of the downloaded file.",
+      "examples": [
+        "pdf"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "file_name": {
+      "type": "string",
+      "description": "File name or path of the downloaded file.",
+      "examples": [
+        "/assets/whitepaper.pdf"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "link_classes": {
+      "type": "string",
+      "description": "CSS classes of the clicked link.",
+      "examples": [
+        "nav-link primary"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "link_id": {
+      "type": "string",
+      "description": "DOM id of the clicked link.",
+      "examples": [
+        "footer-contact"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "link_text": {
+      "type": "string",
+      "description": "Visible text of the clicked link.",
+      "examples": [
+        "Download whitepaper"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "link_url": {
+      "type": "string",
+      "description": "Destination URL of the clicked link.",
+      "examples": [
+        "https://partner.example.org/offer"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    }
+  },
+  "unevaluatedProperties": false
+}

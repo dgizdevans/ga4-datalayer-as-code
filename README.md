@@ -1,8 +1,8 @@
 # GA4 Data Layer as Code
 
-Strict GA4 web data layer contract in YAML and JSON Schema.
+Strict GA4 web dataLayer contract as composable JSON Schema files.
 
-This repository defines a machine-readable baseline for GA4 data collection through `dataLayer.push(...)`. It is intended to serve as a single source of truth for implementation, QA validation, monitoring, and AI-assisted analysis.
+This repository defines a machine-readable baseline for GA4 data collection through `dataLayer.push(...)`. It serves as a single source of truth for implementation, QA validation, monitoring, and AI-assisted analysis.
 
 ## Why this exists
 
@@ -20,14 +20,14 @@ It helps with:
 
 ## Scope
 
-The contract includes:
+The contract covers 48 GA4 web events:
 
-- auto-collected web events
-- enhanced measurement events
-- ecommerce events
-- other GA4 recommended events
-- shared `items` schema
-- envelope fields such as `user_id`, `user_properties`, and `event_id`
+- auto-collected events (`first_visit`, `session_start`, `user_engagement`)
+- enhanced measurement events (`page_view`, `scroll`, `click`, file, form, and video events)
+- all GA4 ecommerce events, including the lead lifecycle
+- other GA4 recommended web events
+
+App-only events (`screen_view`, `ad_impression`) and Measurement-Protocol-only events (`campaign_details`) are intentionally out of scope.
 
 ## Repository structure
 
@@ -37,41 +37,67 @@ ga4-datalayer-as-code/
 ├── CHANGELOG.md
 ├── LICENSE
 ├── package.json
-├── contract/
-│   └── ga4_web_tracking_contract.yaml
-├── schemas/
-│   └── ga4_web_tracking_contract.schema.json
-├── examples/
-│   ├── page_view.json
-│   ├── generate_lead.json
-│   ├── add_to_cart.json
-│   ├── begin_checkout.json
-│   └── purchase.json
-└── validators/
-    └── validate.js
+├── schema/
+│   ├── shared/          # 7 composable definition schemas
+│   │   ├── envelope.json
+│   │   ├── common_web_params.json
+│   │   ├── identity_params.json
+│   │   ├── item.json
+│   │   ├── items.json
+│   │   ├── single_item.json
+│   │   └── money_dependency.json
+│   ├── events/          # 48 event schemas, one file per event
+│   ├── examples/        # 48 paired example payloads
+│   └── index.json       # generated event index
+├── scripts/
+│   ├── validate-schemas.js
+│   ├── validate-examples.js
+│   ├── generate-index.js
+│   └── generate-docs.js
+└── docs/
+    └── EVENTS.md        # generated event reference
 ```
 
 ## Design principles
 
-- strict top-level validation
-- strict event payload validation
-- flat dataLayer.push({ event: "...", ...params }) shape
-- explicit handling of ecommerce items
-- executable validation rules where possible
-- one unified contract for implementation and governance
+- one schema file per event, reviewable in isolation
+- shared definitions composed via `allOf` + `$ref` — every field is defined once
+- strict payloads: `unevaluatedProperties: false` across the whole composition
+- flat `dataLayer.push({ event: "...", ...params })` shape
+- `examples` on business-defined parameters, `enum` only for genuinely closed lists
+- governance metadata on every event and field: `x-event-class`, `x-pii`, `x-sensitivity`
+- every schema has exactly one validating example; the validator enforces the pairing
+- human-readable artifacts (`docs/EVENTS.md`, `schema/index.json`) are generated from the schemas, never maintained in parallel
 
-## Human-readable and machine-readable artifacts
+## Anatomy of an event schema
 
-The repository keeps the contract in two forms:
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "add_to_cart",
+  "type": "object",
+  "x-event-class": "ecommerce",
+  "allOf": [
+    { "$ref": "../shared/envelope.json" },
+    { "$ref": "../shared/common_web_params.json" },
+    { "$ref": "../shared/money_dependency.json" }
+  ],
+  "required": ["event", "items"],
+  "properties": {
+    "event": { "const": "add_to_cart" },
+    "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+    "value": { "type": "number" },
+    "items": { "$ref": "../shared/items.json" }
+  },
+  "unevaluatedProperties": false
+}
+```
 
-- contract/ga4_web_tracking_contract.yaml as the readable source for humans
-- schemas/ga4_web_tracking_contract.schema.json as the validation artifact for machines
-
-This makes the contract usable both in implementation discussions and in automated checks.
+Shared sets compose via `allOf`. Event-specific fields are declared inline with `description`, `examples`, `x-pii`, `x-sensitivity`. The `money_dependency` rule (`value` ⇒ `currency`) is composed only on events where the value is monetary; virtual-currency events intentionally omit it.
 
 ## Example payload
 
-```
+```js
 dataLayer.push({
   event: "purchase",
   user_id: "crm_12345",
@@ -95,12 +121,21 @@ dataLayer.push({
 });
 ```
 
+## Usage
+
+```bash
+npm install
+npm run validate            # compile all schemas + validate all examples
+npm run validate:schemas
+npm run validate:examples
+npm run generate            # regenerate schema/index.json and docs/EVENTS.md
+```
+
 ## Usage scenarios
+
 ### Design-time
 
-Developers and analytics engineers use the contract and the examples/ directory as a reference when implementing tracking.
-
-Typical use cases:
+Developers and analytics engineers use the event schemas and `schema/examples/` as a reference when implementing tracking:
 
 - checking the correct event name and parameter names
 - understanding required vs optional fields
@@ -109,49 +144,45 @@ Typical use cases:
 
 ### Run-time / QA
 
-In test environments, payloads can be validated against ga4_web_tracking_contract.schema.json before or during release checks.
-
-Typical use cases:
+In test environments, payloads can be validated against the event schemas before or during release checks:
 
 - validating example payloads in CI
 - validating generated payloads in automated tests
-- intercepting dataLayer.push(...) in QA environments and checking schema compliance
+- intercepting `dataLayer.push(...)` in QA environments and checking schema compliance
 - failing builds when undeclared fields or invalid payloads are introduced
-
-### Validation
-A minimal validator can be implemented with Ajv.
-
-Example:
-
-```
-const Ajv = require("ajv");
-const schema = require("../schemas/ga4_web_tracking_contract.schema.json");
-const data = require("../examples/purchase.json");
-
-const ajv = new Ajv({ allErrors: true });
-const validate = ajv.compile(schema);
-const valid = validate(data);
-
-if (!valid) {
-  console.error(validate.errors);
-  process.exit(1);
-}
-
-console.log("Contract is valid.");
-```
 
 ## Why examples matter
 
 Developers usually consume examples faster than schemas.
 
-The examples/ directory exists to:
+The `schema/examples/` directory exists to:
 
 - show valid payload shape
 - speed up implementation
 - support onboarding
 - provide fixtures for validation tests
 
-Examples should always pass validation against the JSON Schema.
+Every event schema has exactly one paired example, and `npm run validate:examples` fails on a schema without an example, an orphan example, or an example that does not validate.
+
+## Workflow
+
+1. Add or change an event: edit exactly one schema file and its paired example.
+2. Run `npm run validate`.
+3. Run `npm run generate` to refresh the index and docs.
+4. Open a PR. The diff is the contract change.
+
+## Versioning
+
+Changes to any of the following are versioned and reviewed:
+
+- event names
+- required parameters
+- validation rules
+- ecommerce item structure
+- envelope fields
+- shared definitions
+
+See [CHANGELOG.md](CHANGELOG.md) for the history, including the 5.0.0 restructure from a monolithic contract to composable per-event schemas.
 
 ## Who this is for
 
@@ -172,23 +203,3 @@ This repository is not:
 - a dashboard definition
 
 It is a tracking contract.
-
-## Recommended workflow
-
-Use this repository to:
-
-1. define or update tracking in YAML
-2. generate or maintain the JSON Schema artifact
-3. validate example payloads
-4. validate implementation payloads in CI or QA
-3. review contract changes in Git like application code
-
-## Versioning
-
-Changes to any of the following should be versioned and reviewed:
-
-- event names
-- required parameters
-- validation rules
-- ecommerce item structure
-- envelope fields

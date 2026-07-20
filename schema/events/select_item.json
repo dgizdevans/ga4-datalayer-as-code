@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/events/select_item.json",
+  "title": "select_item",
+  "description": "Item selected from a list.",
+  "type": "object",
+  "x-event-class": "ecommerce",
+  "allOf": [
+    {
+      "$ref": "../shared/envelope.json"
+    },
+    {
+      "$ref": "../shared/common_web_params.json"
+    }
+  ],
+  "required": [
+    "event",
+    "items"
+  ],
+  "properties": {
+    "event": {
+      "const": "select_item"
+    },
+    "item_list_id": {
+      "type": "string",
+      "description": "Identifier of the list the item(s) belong to.",
+      "examples": [
+        "search_results"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "item_list_name": {
+      "type": "string",
+      "description": "Human-readable name of the list.",
+      "examples": [
+        "Search results"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "items": {
+      "$ref": "../shared/single_item.json"
+    }
+  },
+  "unevaluatedProperties": false
+}

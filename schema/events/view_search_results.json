@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/events/view_search_results.json",
+  "title": "view_search_results",
+  "description": "On-site search results page viewed.",
+  "type": "object",
+  "x-event-class": "enhanced_measurement",
+  "allOf": [
+    {
+      "$ref": "../shared/envelope.json"
+    },
+    {
+      "$ref": "../shared/common_web_params.json"
+    }
+  ],
+  "required": [
+    "event"
+  ],
+  "properties": {
+    "event": {
+      "const": "view_search_results"
+    },
+    "search_term": {
+      "type": "string",
+      "description": "Query string entered by the visitor.",
+      "examples": [
+        "silver ring"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "unique_search_term": {
+      "type": "integer",
+      "description": "1 when the term is new within the session, otherwise absent or 0.",
+      "examples": [
+        1
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    }
+  },
+  "unevaluatedProperties": false
+}

@@ -1,0 +1,9 @@
+{
+  "event": "session_start",
+  "page_location": "https://example.com/pricing",
+  "page_title": "Pricing",
+  "language": "en-us",
+  "client_id": "1234567890.1712345678",
+  "ga_session_id": 1712345678,
+  "ga_session_number": 1
+}

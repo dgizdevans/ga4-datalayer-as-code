@@ -1,0 +1,8 @@
+{
+  "event": "level_end",
+  "page_location": "https://example.com/pricing",
+  "page_title": "Pricing",
+  "language": "en-us",
+  "level_name": "onboarding_1",
+  "success": true
+}

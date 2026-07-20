@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/events/first_visit.json",
+  "title": "first_visit",
+  "description": "First visit of the user to the site. Auto-collected by GA4.",
+  "type": "object",
+  "x-event-class": "auto_collected",
+  "allOf": [
+    {
+      "$ref": "../shared/envelope.json"
+    },
+    {
+      "$ref": "../shared/common_web_params.json"
+    },
+    {
+      "$ref": "../shared/identity_params.json"
+    }
+  ],
+  "required": [
+    "event"
+  ],
+  "properties": {
+    "event": {
+      "const": "first_visit"
+    }
+  },
+  "unevaluatedProperties": false
+}

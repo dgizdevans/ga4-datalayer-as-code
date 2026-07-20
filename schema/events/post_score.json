@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/events/post_score.json",
+  "title": "post_score",
+  "description": "Score posted.",
+  "type": "object",
+  "x-event-class": "recommended",
+  "allOf": [
+    {
+      "$ref": "../shared/envelope.json"
+    },
+    {
+      "$ref": "../shared/common_web_params.json"
+    }
+  ],
+  "required": [
+    "event",
+    "score"
+  ],
+  "properties": {
+    "event": {
+      "const": "post_score"
+    },
+    "score": {
+      "type": "number",
+      "description": "Score posted by the user.",
+      "examples": [
+        1200
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "level": {
+      "type": "number",
+      "description": "Numeric level reached.",
+      "examples": [
+        5
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "character": {
+      "type": "string",
+      "description": "Character or persona in play.",
+      "examples": [
+        "default"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    }
+  },
+  "unevaluatedProperties": false
+}

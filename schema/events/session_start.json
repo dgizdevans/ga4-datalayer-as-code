@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/events/session_start.json",
+  "title": "session_start",
+  "description": "Start of a new session. Auto-collected by GA4.",
+  "type": "object",
+  "x-event-class": "auto_collected",
+  "allOf": [
+    {
+      "$ref": "../shared/envelope.json"
+    },
+    {
+      "$ref": "../shared/common_web_params.json"
+    },
+    {
+      "$ref": "../shared/identity_params.json"
+    }
+  ],
+  "required": [
+    "event"
+  ],
+  "properties": {
+    "event": {
+      "const": "session_start"
+    }
+  },
+  "unevaluatedProperties": false
+}

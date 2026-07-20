@@ -1,0 +1,28 @@
+{
+  "event": "add_shipping_info",
+  "page_location": "https://example.com/pricing",
+  "page_title": "Pricing",
+  "language": "en-us",
+  "currency": "EUR",
+  "value": 169.97,
+  "shipping_tier": "ground",
+  "items": [
+    {
+      "item_id": "sku_1",
+      "item_name": "Pro Plan",
+      "item_brand": "Example",
+      "item_category": "Subscription",
+      "price": 129.99,
+      "quantity": 1
+    },
+    {
+      "item_id": "sku_2",
+      "item_name": "Add-on Seat",
+      "item_brand": "Example",
+      "item_category": "Subscription",
+      "price": 19.99,
+      "quantity": 2,
+      "stock_status": "in_stock"
+    }
+  ]
+}

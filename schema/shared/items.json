@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/shared/items.json",
+  "title": "items",
+  "description": "Array of GA4 ecommerce items, 1 to 200 entries.",
+  "type": "array",
+  "minItems": 1,
+  "maxItems": 200,
+  "items": {
+    "$ref": "item.json"
+  }
+}

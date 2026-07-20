@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/events/generate_lead.json",
+  "title": "generate_lead",
+  "description": "Lead form or contact request submitted.",
+  "type": "object",
+  "x-event-class": "recommended",
+  "allOf": [
+    {
+      "$ref": "../shared/envelope.json"
+    },
+    {
+      "$ref": "../shared/common_web_params.json"
+    },
+    {
+      "$ref": "../shared/money_dependency.json"
+    }
+  ],
+  "required": [
+    "event"
+  ],
+  "properties": {
+    "event": {
+      "const": "generate_lead"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 currency code. Required whenever value is present.",
+      "examples": [
+        "EUR"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "value": {
+      "type": "number",
+      "description": "Monetary value of the event in the given currency.",
+      "examples": [
+        129.99
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "lead_source": {
+      "type": "string",
+      "description": "Source of the generated lead.",
+      "examples": [
+        "contact_form"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    }
+  },
+  "unevaluatedProperties": false
+}

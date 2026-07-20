@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/events/select_content.json",
+  "title": "select_content",
+  "description": "Content element selected.",
+  "type": "object",
+  "x-event-class": "recommended",
+  "allOf": [
+    {
+      "$ref": "../shared/envelope.json"
+    },
+    {
+      "$ref": "../shared/common_web_params.json"
+    }
+  ],
+  "required": [
+    "event"
+  ],
+  "properties": {
+    "event": {
+      "const": "select_content"
+    },
+    "content_type": {
+      "type": "string",
+      "description": "Type of the selected or shared content.",
+      "examples": [
+        "article"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "content_id": {
+      "type": "string",
+      "description": "Identifier of the selected content.",
+      "examples": [
+        "post_2026_07"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    }
+  },
+  "unevaluatedProperties": false
+}

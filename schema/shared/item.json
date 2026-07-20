@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/shared/item.json",
+  "title": "item",
+  "description": "GA4 ecommerce item object. Requires item_id or item_name. Flat item-scoped custom parameters are allowed via patternProperties, capped by maxProperties.",
+  "type": "object",
+  "anyOf": [
+    {
+      "required": [
+        "item_id"
+      ]
+    },
+    {
+      "required": [
+        "item_name"
+      ]
+    }
+  ],
+  "properties": {
+    "item_id": {
+      "type": "string",
+      "description": "Item identifier (SKU).",
+      "examples": [
+        "sku_1"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "item_name": {
+      "type": "string",
+      "description": "Item display name.",
+      "examples": [
+        "Pro Plan"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "affiliation": {
+      "type": "string"
+    },
+    "coupon": {
+      "type": "string",
+      "description": "Item-level coupon code.",
+      "examples": [
+        "SPRING10"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "discount": {
+      "type": "number"
+    },
+    "index": {
+      "type": "integer"
+    },
+    "item_brand": {
+      "type": "string"
+    },
+    "item_category": {
+      "type": "string"
+    },
+    "item_category2": {
+      "type": "string"
+    },
+    "item_category3": {
+      "type": "string"
+    },
+    "item_category4": {
+      "type": "string"
+    },
+    "item_category5": {
+      "type": "string"
+    },
+    "item_list_id": {
+      "type": "string",
+      "description": "Identifier of the list the item(s) belong to.",
+      "examples": [
+        "search_results"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "item_list_name": {
+      "type": "string",
+      "description": "Human-readable name of the list.",
+      "examples": [
+        "Search results"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "item_variant": {
+      "type": "string"
+    },
+    "location_id": {
+      "type": "string"
+    },
+    "price": {
+      "type": "number"
+    },
+    "quantity": {
+      "type": "number",
+      "default": 1
+    },
+    "creative_name": {
+      "type": "string",
+      "description": "Name of the promotional creative.",
+      "examples": [
+        "summer_banner"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "creative_slot": {
+      "type": "string",
+      "description": "Slot where the creative was shown.",
+      "examples": [
+        "home_hero_1"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "promotion_id": {
+      "type": "string",
+      "description": "Identifier of the promotion.",
+      "examples": [
+        "promo_summer"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "promotion_name": {
+      "type": "string",
+      "description": "Name of the promotion.",
+      "examples": [
+        "Summer Sale"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    }
+  },
+  "patternProperties": {
+    "^(?!(?:item_id|item_name|affiliation|coupon|discount|index|item_brand|item_category|item_category2|item_category3|item_category4|item_category5|item_list_id|item_list_name|item_variant|location_id|price|quantity|creative_name|creative_slot|promotion_id|promotion_name)$)[A-Za-z][A-Za-z0-9_]{0,39}$": {
+      "type": [
+        "string",
+        "number",
+        "boolean",
+        "null"
+      ]
+    }
+  },
+  "maxProperties": 49,
+  "unevaluatedProperties": false
+}

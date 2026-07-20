@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dgizdevans/ga4-datalayer-as-code/main/schema/events/purchase.json",
+  "title": "purchase",
+  "description": "Order completed. Key conversion event; deduplicated by transaction_id.",
+  "type": "object",
+  "x-event-class": "ecommerce",
+  "allOf": [
+    {
+      "$ref": "../shared/envelope.json"
+    },
+    {
+      "$ref": "../shared/common_web_params.json"
+    },
+    {
+      "$ref": "../shared/money_dependency.json"
+    }
+  ],
+  "required": [
+    "event",
+    "transaction_id",
+    "items"
+  ],
+  "properties": {
+    "event": {
+      "const": "purchase"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 currency code. Required whenever value is present.",
+      "examples": [
+        "EUR"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "value": {
+      "type": "number",
+      "description": "Monetary value of the event in the given currency.",
+      "examples": [
+        129.99
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "transaction_id": {
+      "type": "string",
+      "description": "Unique order identifier. Key for purchase deduplication.",
+      "examples": [
+        "ORD-2026-0001"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "coupon": {
+      "type": "string",
+      "description": "Coupon code applied in the current context.",
+      "examples": [
+        "SPRING10"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "shipping": {
+      "type": "number",
+      "description": "Shipping cost charged on the order.",
+      "examples": [
+        4.99
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "tax": {
+      "type": "number",
+      "description": "Tax amount on the order.",
+      "examples": [
+        21.49
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "customer_type": {
+      "type": "string",
+      "description": "Custom parameter classifying the buyer.",
+      "examples": [
+        "new",
+        "returning"
+      ],
+      "x-pii": false,
+      "x-sensitivity": "none"
+    },
+    "items": {
+      "$ref": "../shared/items.json"
+    }
+  },
+  "unevaluatedProperties": false
+}

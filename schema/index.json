@@ -1,0 +1,344 @@
+{
+  "name": "ga4-datalayer-as-code",
+  "version": "5.0.0",
+  "generated_by": "scripts/generate-index.js",
+  "event_count": 48,
+  "events": [
+    {
+      "event": "add_payment_info",
+      "class": "ecommerce",
+      "description": "Payment details submitted during checkout.",
+      "schema": "schema/events/add_payment_info.json",
+      "example": "schema/examples/add_payment_info.example.json"
+    },
+    {
+      "event": "add_shipping_info",
+      "class": "ecommerce",
+      "description": "Shipping details submitted during checkout.",
+      "schema": "schema/events/add_shipping_info.json",
+      "example": "schema/examples/add_shipping_info.example.json"
+    },
+    {
+      "event": "add_to_cart",
+      "class": "ecommerce",
+      "description": "Item(s) added to the cart.",
+      "schema": "schema/events/add_to_cart.json",
+      "example": "schema/examples/add_to_cart.example.json"
+    },
+    {
+      "event": "add_to_wishlist",
+      "class": "ecommerce",
+      "description": "Item(s) added to a wishlist.",
+      "schema": "schema/events/add_to_wishlist.json",
+      "example": "schema/examples/add_to_wishlist.example.json"
+    },
+    {
+      "event": "begin_checkout",
+      "class": "ecommerce",
+      "description": "Checkout flow started.",
+      "schema": "schema/events/begin_checkout.json",
+      "example": "schema/examples/begin_checkout.example.json"
+    },
+    {
+      "event": "click",
+      "class": "enhanced_measurement",
+      "description": "Outbound link click captured by Enhanced Measurement.",
+      "schema": "schema/events/click.json",
+      "example": "schema/examples/click.example.json"
+    },
+    {
+      "event": "close_convert_lead",
+      "class": "recommended",
+      "description": "Lead closed as converted.",
+      "schema": "schema/events/close_convert_lead.json",
+      "example": "schema/examples/close_convert_lead.example.json"
+    },
+    {
+      "event": "close_unconvert_lead",
+      "class": "recommended",
+      "description": "Lead closed as not converted.",
+      "schema": "schema/events/close_unconvert_lead.json",
+      "example": "schema/examples/close_unconvert_lead.example.json"
+    },
+    {
+      "event": "disqualify_lead",
+      "class": "recommended",
+      "description": "Lead marked as disqualified.",
+      "schema": "schema/events/disqualify_lead.json",
+      "example": "schema/examples/disqualify_lead.example.json"
+    },
+    {
+      "event": "earn_virtual_currency",
+      "class": "recommended",
+      "description": "Virtual currency earned. Note: value here is an amount of virtual currency, so the monetary currency rule is intentionally not composed.",
+      "schema": "schema/events/earn_virtual_currency.json",
+      "example": "schema/examples/earn_virtual_currency.example.json"
+    },
+    {
+      "event": "file_download",
+      "class": "enhanced_measurement",
+      "description": "Click on a link to a downloadable file.",
+      "schema": "schema/events/file_download.json",
+      "example": "schema/examples/file_download.example.json"
+    },
+    {
+      "event": "first_visit",
+      "class": "auto_collected",
+      "description": "First visit of the user to the site. Auto-collected by GA4.",
+      "schema": "schema/events/first_visit.json",
+      "example": "schema/examples/first_visit.example.json"
+    },
+    {
+      "event": "form_start",
+      "class": "enhanced_measurement",
+      "description": "First interaction with a form in the session.",
+      "schema": "schema/events/form_start.json",
+      "example": "schema/examples/form_start.example.json"
+    },
+    {
+      "event": "form_submit",
+      "class": "enhanced_measurement",
+      "description": "Form submitted.",
+      "schema": "schema/events/form_submit.json",
+      "example": "schema/examples/form_submit.example.json"
+    },
+    {
+      "event": "generate_lead",
+      "class": "recommended",
+      "description": "Lead form or contact request submitted.",
+      "schema": "schema/events/generate_lead.json",
+      "example": "schema/examples/generate_lead.example.json"
+    },
+    {
+      "event": "join_group",
+      "class": "recommended",
+      "description": "User joined a group or community.",
+      "schema": "schema/events/join_group.json",
+      "example": "schema/examples/join_group.example.json"
+    },
+    {
+      "event": "level_end",
+      "class": "recommended",
+      "description": "Level or stage finished.",
+      "schema": "schema/events/level_end.json",
+      "example": "schema/examples/level_end.example.json"
+    },
+    {
+      "event": "level_start",
+      "class": "recommended",
+      "description": "Level or stage started.",
+      "schema": "schema/events/level_start.json",
+      "example": "schema/examples/level_start.example.json"
+    },
+    {
+      "event": "level_up",
+      "class": "recommended",
+      "description": "User reached a new level.",
+      "schema": "schema/events/level_up.json",
+      "example": "schema/examples/level_up.example.json"
+    },
+    {
+      "event": "login",
+      "class": "recommended",
+      "description": "User authenticated.",
+      "schema": "schema/events/login.json",
+      "example": "schema/examples/login.example.json"
+    },
+    {
+      "event": "page_view",
+      "class": "enhanced_measurement",
+      "description": "Page load or history state change.",
+      "schema": "schema/events/page_view.json",
+      "example": "schema/examples/page_view.example.json"
+    },
+    {
+      "event": "post_score",
+      "class": "recommended",
+      "description": "Score posted.",
+      "schema": "schema/events/post_score.json",
+      "example": "schema/examples/post_score.example.json"
+    },
+    {
+      "event": "purchase",
+      "class": "ecommerce",
+      "description": "Order completed. Key conversion event; deduplicated by transaction_id.",
+      "schema": "schema/events/purchase.json",
+      "example": "schema/examples/purchase.example.json"
+    },
+    {
+      "event": "qualify_lead",
+      "class": "recommended",
+      "description": "Lead marked as qualified.",
+      "schema": "schema/events/qualify_lead.json",
+      "example": "schema/examples/qualify_lead.example.json"
+    },
+    {
+      "event": "refund",
+      "class": "ecommerce",
+      "description": "Full or partial refund issued for an order.",
+      "schema": "schema/events/refund.json",
+      "example": "schema/examples/refund.example.json"
+    },
+    {
+      "event": "remove_from_cart",
+      "class": "ecommerce",
+      "description": "Item(s) removed from the cart.",
+      "schema": "schema/events/remove_from_cart.json",
+      "example": "schema/examples/remove_from_cart.example.json"
+    },
+    {
+      "event": "scroll",
+      "class": "enhanced_measurement",
+      "description": "Visitor reached 90% page depth.",
+      "schema": "schema/events/scroll.json",
+      "example": "schema/examples/scroll.example.json"
+    },
+    {
+      "event": "search",
+      "class": "recommended",
+      "description": "On-site search performed. Manual counterpart to view_search_results.",
+      "schema": "schema/events/search.json",
+      "example": "schema/examples/search.example.json"
+    },
+    {
+      "event": "select_content",
+      "class": "recommended",
+      "description": "Content element selected.",
+      "schema": "schema/events/select_content.json",
+      "example": "schema/examples/select_content.example.json"
+    },
+    {
+      "event": "select_item",
+      "class": "ecommerce",
+      "description": "Item selected from a list.",
+      "schema": "schema/events/select_item.json",
+      "example": "schema/examples/select_item.example.json"
+    },
+    {
+      "event": "select_promotion",
+      "class": "ecommerce",
+      "description": "Promotion selected.",
+      "schema": "schema/events/select_promotion.json",
+      "example": "schema/examples/select_promotion.example.json"
+    },
+    {
+      "event": "session_start",
+      "class": "auto_collected",
+      "description": "Start of a new session. Auto-collected by GA4.",
+      "schema": "schema/events/session_start.json",
+      "example": "schema/examples/session_start.example.json"
+    },
+    {
+      "event": "share",
+      "class": "recommended",
+      "description": "Content shared.",
+      "schema": "schema/events/share.json",
+      "example": "schema/examples/share.example.json"
+    },
+    {
+      "event": "sign_up",
+      "class": "recommended",
+      "description": "Account created.",
+      "schema": "schema/events/sign_up.json",
+      "example": "schema/examples/sign_up.example.json"
+    },
+    {
+      "event": "spend_virtual_currency",
+      "class": "recommended",
+      "description": "Virtual currency spent. Note: value here is an amount of virtual currency, so the monetary currency rule is intentionally not composed.",
+      "schema": "schema/events/spend_virtual_currency.json",
+      "example": "schema/examples/spend_virtual_currency.example.json"
+    },
+    {
+      "event": "tutorial_begin",
+      "class": "recommended",
+      "description": "Onboarding or tutorial started.",
+      "schema": "schema/events/tutorial_begin.json",
+      "example": "schema/examples/tutorial_begin.example.json"
+    },
+    {
+      "event": "tutorial_complete",
+      "class": "recommended",
+      "description": "Onboarding or tutorial completed.",
+      "schema": "schema/events/tutorial_complete.json",
+      "example": "schema/examples/tutorial_complete.example.json"
+    },
+    {
+      "event": "unlock_achievement",
+      "class": "recommended",
+      "description": "Achievement unlocked.",
+      "schema": "schema/events/unlock_achievement.json",
+      "example": "schema/examples/unlock_achievement.example.json"
+    },
+    {
+      "event": "user_engagement",
+      "class": "auto_collected",
+      "description": "Periodic engagement heartbeat while the page is in focus. Auto-collected by GA4.",
+      "schema": "schema/events/user_engagement.json",
+      "example": "schema/examples/user_engagement.example.json"
+    },
+    {
+      "event": "video_complete",
+      "class": "enhanced_measurement",
+      "description": "Embedded video finished.",
+      "schema": "schema/events/video_complete.json",
+      "example": "schema/examples/video_complete.example.json"
+    },
+    {
+      "event": "video_progress",
+      "class": "enhanced_measurement",
+      "description": "Embedded video passed a progress threshold.",
+      "schema": "schema/events/video_progress.json",
+      "example": "schema/examples/video_progress.example.json"
+    },
+    {
+      "event": "video_start",
+      "class": "enhanced_measurement",
+      "description": "Embedded video playback started.",
+      "schema": "schema/events/video_start.json",
+      "example": "schema/examples/video_start.example.json"
+    },
+    {
+      "event": "view_cart",
+      "class": "ecommerce",
+      "description": "Cart page or cart drawer viewed.",
+      "schema": "schema/events/view_cart.json",
+      "example": "schema/examples/view_cart.example.json"
+    },
+    {
+      "event": "view_item",
+      "class": "ecommerce",
+      "description": "Product detail viewed.",
+      "schema": "schema/events/view_item.json",
+      "example": "schema/examples/view_item.example.json"
+    },
+    {
+      "event": "view_item_list",
+      "class": "ecommerce",
+      "description": "List of items viewed.",
+      "schema": "schema/events/view_item_list.json",
+      "example": "schema/examples/view_item_list.example.json"
+    },
+    {
+      "event": "view_promotion",
+      "class": "ecommerce",
+      "description": "Promotion viewed.",
+      "schema": "schema/events/view_promotion.json",
+      "example": "schema/examples/view_promotion.example.json"
+    },
+    {
+      "event": "view_search_results",
+      "class": "enhanced_measurement",
+      "description": "On-site search results page viewed.",
+      "schema": "schema/events/view_search_results.json",
+      "example": "schema/examples/view_search_results.example.json"
+    },
+    {
+      "event": "working_lead",
+      "class": "recommended",
+      "description": "Lead status updated while being worked.",
+      "schema": "schema/events/working_lead.json",
+      "example": "schema/examples/working_lead.example.json"
+    }
+  ]
+}
